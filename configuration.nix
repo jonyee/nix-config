@@ -86,6 +86,7 @@ in
     update-copilot
     pkgs.git
     pkgs.gh
+    pkgs.helix
     pkgs.fish
     pkgs.fishPlugins.bobthefish
   ];
