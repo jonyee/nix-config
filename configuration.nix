@@ -14,7 +14,11 @@
     pkgs.helix
     pkgs.fish
     pkgs.fishPlugins.bobthefish
+    pkgs.xdg-utils
+    pkgs.wslu
   ];
+
+  environment.sessionVariables.BROWSER = "wslview";
 
   programs.fish.enable = true;
 
