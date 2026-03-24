@@ -84,6 +84,7 @@ in
   environment.systemPackages = [
     github-copilot-cli
     update-copilot
+    pkgs.git
     pkgs.fish
     pkgs.fishPlugins.bobthefish
   ];
