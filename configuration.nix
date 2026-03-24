@@ -16,9 +16,12 @@
     pkgs.fishPlugins.bobthefish
     pkgs.xdg-utils
     pkgs.wslu
+    pkgs.wget
   ];
 
   environment.sessionVariables.BROWSER = "wslview";
+
+  programs.nix-ld.enable = true;
 
   programs.fish.enable = true;
 
