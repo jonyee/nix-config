@@ -11,6 +11,7 @@
   environment.systemPackages = [
     pkgs.git
     pkgs.jujutsu
+    pkgs.lazyjj
     pkgs.gh
     pkgs.helix
     pkgs.fish
