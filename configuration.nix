@@ -10,6 +10,7 @@
 
   environment.systemPackages = [
     pkgs.git
+    pkgs.jujutsu
     pkgs.gh
     pkgs.helix
     pkgs.fish
