@@ -3,11 +3,11 @@
 let
   github-copilot-cli = pkgs.stdenv.mkDerivation rec {
     pname = "github-copilot-cli";
-    version = "1.0.11";
+    version = "1.0.17";
 
     src = pkgs.fetchzip {
       url = "https://registry.npmjs.org/@github/copilot/-/copilot-${version}.tgz";
-      hash = "sha256:0wzf68s4751kgrhip2wcqvwprgz9kdcw1yz55mj31vwqk188wfxi";
+      hash = "sha256-Qp++Q5+xvOZ3v7ZjqYAefxNL52GfgVE+dXkLrfGhZwE=";
     };
 
     nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
