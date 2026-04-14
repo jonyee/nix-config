@@ -14,7 +14,6 @@
     pkgs.gh
     pkgs.helix
     pkgs.fish
-    pkgs.fishPlugins.bobthefish
     pkgs.xdg-utils
     pkgs.wslu
     pkgs.wget
@@ -25,6 +24,8 @@
   programs.nix-ld.enable = true;
 
   programs.fish.enable = true;
+
+  programs.starship.enable = true;
 
   users.defaultUserShell = pkgs.fish;
 
