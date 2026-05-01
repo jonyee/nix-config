@@ -3,11 +3,11 @@
 let
   github-copilot-cli = pkgs.stdenv.mkDerivation rec {
     pname = "github-copilot-cli";
-    version = "1.0.27";
+    version = "1.0.40";
 
     src = pkgs.fetchzip {
       url = "https://registry.npmjs.org/@github/copilot/-/copilot-${version}.tgz";
-      hash = "sha256-9bEsmQT31PN2kelXHwHFKXh7w9AkxTbSKKs1jswJrqc=";
+      hash = "sha256-f+Uvlk2JUw2paTjXpEyEyJjdCVFIrnvemBRlE/8VDSQ=";
     };
 
     nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
@@ -19,7 +19,7 @@ let
       cp -r . $out/lib/node_modules/@github/copilot
 
       mkdir -p $out/bin
-      makeBinaryWrapper ${pkgs.nodejs}/bin/node $out/bin/copilot \
+      makeBinaryWrapper ${pkgs.nodejs_22}/bin/node $out/bin/copilot \
         --add-flags "$out/lib/node_modules/@github/copilot/index.js"
 
       runHook postInstall
