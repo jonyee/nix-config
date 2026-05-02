@@ -4,9 +4,14 @@
   imports = [
     <nixos-wsl/modules>
     ./copilot.nix
+    ./unifi-mcp.nix
   ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "jujutsu-0.23.0"
+  ];
 
   environment.systemPackages = [
     pkgs.git
