@@ -8,6 +8,7 @@
   ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";
+  wsl.interop.register = true;
 
   nixpkgs.config.permittedInsecurePackages = [
     "jujutsu-0.23.0"
