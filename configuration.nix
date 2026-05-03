@@ -5,6 +5,7 @@
     <nixos-wsl/modules>
     ./copilot.nix
     ./unifi-mcp.nix
+    ./pi-coding-agent.nix
   ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";
