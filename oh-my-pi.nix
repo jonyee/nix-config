@@ -1,15 +1,15 @@
 { lib, pkgs, ... }:
 
 let
-  version = "18.1.6";
+  version = "18.1.19";
   release = {
     aarch64-linux = {
       asset = "omp-linux-arm64";
-      hash = "sha256-lhhgfrJHN+U/St23aUNKJfmSA8ZcnSNPtMlbclHUQO4=";
+      hash = "sha256-syG2uyqWBo3y9JcvmGVMI+RRNxonXPuwqY729fhY8jk=";
     };
     x86_64-linux = {
       asset = "omp-linux-x64";
-      hash = "sha256-+UO2qtrzOaO6yjXkOuc4adqE6abiwH2uFcdN18asT7A=";
+      hash = "sha256-S13wxhzJeCI70S9+jVM1VOgLs2CpGSSR3hPaPVOyg6w=";
     };
   }.${pkgs.stdenv.hostPlatform.system};
 
@@ -49,6 +49,5 @@ let
   };
 in
 {
-  environment.sessionVariables.AZURE_OPENAI_BASE_URL = "https://ai-jonyee7246ai751339609690.cognitiveservices.azure.com/";
   environment.systemPackages = [ oh-my-pi ];
 }

@@ -1,0 +1,10 @@
+/result
+/result-*
+.env
+.env.*
+.omp/
+.copilot/
+*.pem
+*.key
+id_rsa
+id_ed25519

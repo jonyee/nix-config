@@ -3,7 +3,6 @@
 {
   imports = [
     ./copilot.nix
-    ./unifi-mcp.nix
     ./oh-my-pi.nix
   ];
   wsl.enable = true;
