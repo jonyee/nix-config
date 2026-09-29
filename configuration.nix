@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pi, ... }:
 
 {
   imports = [
@@ -27,6 +27,7 @@
     pkgs.xdg-utils
     pkgs.wslu
     pkgs.wget
+    pi.packages.${pkgs.stdenv.hostPlatform.system}.coding-agent
   ];
 
   environment.sessionVariables.BROWSER = "wslview";

@@ -13,3 +13,9 @@ The repository remains at `~/git/nix-config`, with `/etc/nixos/configuration.nix
 ## Azure CLI
 
 The system configuration installs Azure CLI (`az`) from the pinned nixpkgs input for ARM64 and x86-64. After activating the configuration, run `az --version` to check the installation. Sign in with `az login` when needed; credentials are not part of this configuration.
+
+## Pi coding agent
+
+The system configuration installs [Pi](https://pi.dev/) as `pi` on ARM64 and x86-64, independently of `omp`. Its package comes from the pinned [pi.nix](https://github.com/lukasl-dev/pi.nix) flake; no installer or global npm install is needed. After activating the configuration, run `pi --version`, then `pi` in your project directory. Use `/login` inside Pi to connect a provider; keep credentials outside this repository.
+
+To upgrade Pi, run `nix flake update pi` in this repository, build the configuration, and then activate it. Updating the pinned input does not change the running system until activation.

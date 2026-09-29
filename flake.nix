@@ -9,12 +9,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    pi = {
+      url = "github:lukasl-dev/pi.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { nixpkgs, nixos-wsl, ... }:
+  outputs = { nixpkgs, nixos-wsl, pi, ... }:
     let
       mkWslSystem = system: nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit pi; };
         modules = [
           nixos-wsl.nixosModules.default
           ./configuration.nix
