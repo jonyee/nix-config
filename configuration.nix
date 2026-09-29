@@ -20,6 +20,7 @@
     pkgs.lazyjj
     pkgs.lazygit
     pkgs.gh
+    pkgs.azure-cli
     pkgs.helix
     pkgs.vim
     pkgs.fish
