@@ -4,6 +4,7 @@
   imports = [
     ./copilot.nix
     ./oh-my-pi.nix
+    ./herdr.nix
   ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";

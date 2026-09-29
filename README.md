@@ -19,3 +19,7 @@ The system configuration installs Azure CLI (`az`) from the pinned nixpkgs input
 The system configuration installs [Pi](https://pi.dev/) as `pi` on ARM64 and x86-64, independently of `omp`. Its package comes from the pinned [pi.nix](https://github.com/lukasl-dev/pi.nix) flake; no installer or global npm install is needed. After activating the configuration, run `pi --version`, then `pi` in your project directory. Use `/login` inside Pi to connect a provider; keep credentials outside this repository.
 
 To upgrade Pi, run `nix flake update pi` in this repository, build the configuration, and then activate it. Updating the pinned input does not change the running system until activation.
+
+## Herdr
+
+The system configuration installs Herdr from pinned Linux ARM64 and x86-64 release binaries in `herdr.nix`. After activating the configuration, run `herdr` to start or attach to a persistent terminal session; `Ctrl+b q` detaches without stopping it. Update the version and both hashes in `herdr.nix` before rebuilding to upgrade Herdr. Use the configured package rather than `herdr update` so upgrades remain declarative.
