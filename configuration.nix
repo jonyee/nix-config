@@ -1,10 +1,11 @@
-{ config, lib, pkgs, pi, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
     ./copilot.nix
     ./oh-my-pi.nix
     ./herdr.nix
+    ./pi.nix
   ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";
@@ -28,7 +29,6 @@
     pkgs.xdg-utils
     pkgs.wslu
     pkgs.wget
-    pi.packages.${pkgs.stdenv.hostPlatform.system}.coding-agent
   ];
 
   environment.sessionVariables.BROWSER = "wslview";

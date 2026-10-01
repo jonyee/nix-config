@@ -1,0 +1,10 @@
+{
+  "name": "nix-managed-pi-extensions",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "pi-mcp-adapter": "4.0.0",
+    "pi-powerline-footer": "0.19.0",
+    "pi-web-access": "0.35.0"
+  }
+}
