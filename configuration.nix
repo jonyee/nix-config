@@ -33,6 +33,9 @@
 
   environment.sessionVariables.BROWSER = "wslview";
 
+  environment.shellAliases.nrs =
+    ''sudo nixos-rebuild switch --flake "$HOME/git/nix-config#nixos-${lib.removeSuffix "-linux" pkgs.stdenv.hostPlatform.system}"'';
+
   programs.nix-ld.enable = true;
 
   programs.fish.enable = true;

@@ -10,6 +10,18 @@ The installer supports ARM64 and x86-64 and refuses to overwrite an existing `~/
 
 The repository remains at `~/git/nix-config`, with `/etc/nixos/configuration.nix` linked to it for compatibility. The original NixOS-WSL configuration remains at `/etc/nixos.initial`. Open a new terminal after the rebuild to start the configured Fish shell.
 
+## Activating configuration changes
+
+After the configuration has been activated once and you have opened a new shell, run:
+
+```sh
+nrs
+```
+
+This shell alias runs `sudo nixos-rebuild switch` against `~/git/nix-config`, selecting `nixos-aarch64` or `nixos-x86_64` for the configured machine. It works from any directory. Extra arguments are forwarded, for example `nrs --show-trace`.
+
+Activation applies the entire configuration, including all pending edits, not just the most recent change. The alias itself requires an initial activation using your existing rebuild command before it becomes available.
+
 ## Azure CLI
 
 The system configuration installs Azure CLI (`az`) from the pinned nixpkgs input for ARM64 and x86-64. After activating the configuration, run `az --version` to check the installation. Sign in with `az login` when needed; credentials are not part of this configuration.
