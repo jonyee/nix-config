@@ -1,15 +1,15 @@
 { lib, pkgs, ... }:
 
 let
-  version = "18.4.2";
+  version = "18.8.4";
   release = {
     aarch64-linux = {
       asset = "omp-linux-arm64";
-      hash = "sha256-LBbcTBRr+A2WLojr7+h8LVswtC8FE+uhANfBsWGr0Fs=";
+      hash = "sha256-4SmD0GOhlG16ogufpALApKxl7vomwxaMUCxPKKBM070=";
     };
     x86_64-linux = {
       asset = "omp-linux-x64";
-      hash = "sha256-VQFu9TF69VaXXzo9zgLI20H8HQXRW2UUeBT94BnC4gM=";
+      hash = "sha256-stuiI/va4nrL2Zvi8+droQuq4XaPnFfO4wxEDzCN6k4=";
     };
   }.${pkgs.stdenv.hostPlatform.system};
 
