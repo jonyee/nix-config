@@ -25,6 +25,7 @@
     pkgs.azure-cli
     pkgs.helix
     pkgs.vim
+    pkgs.emacs
     pkgs.fish
     pkgs.xdg-utils
     pkgs.wslu
