@@ -1,5 +1,7 @@
 # NixOS-WSL configuration
 
+The flake targets stable NixOS 26.05 with the matching NixOS-WSL release for ARM64 and x86-64. Both inputs are pinned in `flake.lock`; the Nix package manager and system packages come from that nixpkgs release.
+
 Once this repository is public and the installer is published on `main`, run this command as the normal user in a fresh NixOS-WSL instance:
 
 ```bash
@@ -22,9 +24,24 @@ This shell alias runs `sudo nixos-rebuild switch` against `~/git/nix-config`, se
 
 Activation applies the entire configuration, including all pending edits, not just the most recent change. The alias itself requires an initial activation using your existing rebuild command before it becomes available.
 
+### Upgrading from NixOS 25.11
+
+Keep `system.stateVersion = "25.11"`: it controls compatibility with existing state, not the installed release. NixOS 26.05 removes `wslu`; this configuration uses `wsl-open` as `BROWSER` to open links in Windows.
+
+The default D-Bus implementation changes to `dbus-broker`, which requires a restart rather than a live switch. For this release upgrade, stage the configuration without activating it:
+
+```sh
+sudo nixos-rebuild boot --flake "$HOME/git/nix-config#nixos-$(uname -m)"
+```
+
+Save work in all WSL distributions, run `wsl --shutdown` from Windows PowerShell (it stops all distributions), then reopen NixOS. Use `nrs` for subsequent configuration changes.
+
+
 ## Azure CLI
 
 The system configuration installs Azure CLI (`az`) from the pinned nixpkgs input for ARM64 and x86-64. After activating the configuration, run `az --version` to check the installation. Sign in with `az login` when needed; credentials are not part of this configuration.
+
+The pinned NixOS 26.05 packages provide Azure CLI 2.86.0. Stable nixpkgs can lag upstream Azure CLI releases; update it through the flake and a rebuild, not `az upgrade`.
 
 ## Pi coding agent
 

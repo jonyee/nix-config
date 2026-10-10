@@ -28,11 +28,11 @@
     pkgs.emacs
     pkgs.fish
     pkgs.xdg-utils
-    pkgs.wslu
+    pkgs.wsl-open
     pkgs.wget
   ];
 
-  environment.sessionVariables.BROWSER = "wslview";
+  environment.sessionVariables.BROWSER = "wsl-open";
 
   environment.shellAliases.nrs =
     ''sudo nixos-rebuild switch --flake "$HOME/git/nix-config#nixos-${lib.removeSuffix "-linux" pkgs.stdenv.hostPlatform.system}"'';
