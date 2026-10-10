@@ -1,15 +1,16 @@
 { lib, pkgs, ... }:
 
 let
-  version = "18.8.7";
+  version = "18.8.9-fork.1";
+  releaseTag = "fork-v18.8.9-1";
   release = {
     aarch64-linux = {
       asset = "omp-linux-arm64";
-      hash = "sha256-yFQlMO18tUzg7dasLLvauJLot0zXQAdGhtxtLFeGsPw=";
+      hash = "sha256-y5+zSHWnQimgWwzlqk3WN8ZO+a9DReyqksBxGb7+Id8=";
     };
     x86_64-linux = {
       asset = "omp-linux-x64";
-      hash = "sha256-uH+YNaCs27gbu62Cc6otmZtgiiCFmEIalYTP/rMTmoo=";
+      hash = "sha256-5xGSTwG4sanTpizGumhCz35KxdGZLzwje27sJ+2HMmE=";
     };
   }.${pkgs.stdenv.hostPlatform.system};
 
@@ -18,7 +19,7 @@ let
     inherit version;
 
     src = pkgs.fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v${version}/${release.asset}";
+      url = "https://github.com/jonyee/oh-my-pi/releases/download/${releaseTag}/${release.asset}";
       inherit (release) hash;
     };
 
@@ -33,7 +34,7 @@ let
 
     meta = {
       description = "Coding agent with the IDE wired in";
-      homepage = "https://github.com/can1357/oh-my-pi";
+      homepage = "https://github.com/jonyee/oh-my-pi";
       license = lib.licenses.mit;
       mainProgram = "omp";
       sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];

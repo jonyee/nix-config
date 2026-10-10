@@ -85,7 +85,9 @@ The system configuration installs Herdr from pinned Linux ARM64 and x86-64 relea
 
 ## Updating OMP
 
-Fetch the latest stable release, update the version and both architecture hashes in `oh-my-pi.nix`, build OMP for this machine, smoke-test its bundled workers, and activate the configuration:
+OMP is pinned to the fork's `fork-v18.8.9-1` release in `oh-my-pi.nix`, using the published ARM64 and x86-64 binaries with separate SHA-256 hashes. The Nix package version is `18.8.9-fork.1`; the executable reports its upstream version, `18.8.9`. No local OMP compilation or extra flake input is needed.
+
+Fetch the latest stable release from [jonyee/oh-my-pi](https://github.com/jonyee/oh-my-pi/releases), update the tag, version and both architecture hashes, build OMP for this machine, smoke-test its bundled workers, and activate the configuration:
 
 ```sh
 bash "$HOME/git/nix-config/update-omp.sh" --switch
@@ -94,11 +96,13 @@ bash "$HOME/git/nix-config/update-omp.sh" --switch
 Omit `--switch` to update the pin and verify the build without changing the running system. To select a specific release instead of the latest:
 
 ```sh
-bash "$HOME/git/nix-config/update-omp.sh" 18.1.22 --switch
+bash "$HOME/git/nix-config/update-omp.sh" fork-v18.8.9-1 --switch
 ```
 
 The script works from any directory and requires Bash, curl, and Nix with `nix-command` and `flakes` enabled, as configured here. Both release assets must download successfully before the pin is changed. A later build or activation failure leaves the updated pin in place so it can be inspected or retried.
 
 Switching applies the entire NixOS configuration, including any other pending edits. Exit and relaunch OMP afterward. Updating flake inputs alone does not change this separately pinned package.
+
+Use full fork tags of the form `fork-vVERSION-REVISION`; upstream tags are rejected. Do not use `omp update`, which still targets upstream and cannot update this Nix-managed install. Future fork releases require the new tag and both hashes, either through this script or a manual pin update.
 
 OMP uses its own executable to launch the daemon broker and other workers. The package installs the release binary directly (not through a dynamic-linker wrapper); `programs.nix-ld.enable` supplies its loader on NixOS. After activation, run `omp --smoke-test` if troubleshooting worker startup.
