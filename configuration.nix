@@ -12,14 +12,8 @@
   wsl.interop.register = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "jujutsu-0.23.0"
-  ];
-
   environment.systemPackages = [
     pkgs.git
-    pkgs.jujutsu
-    pkgs.lazyjj
     pkgs.lazygit
     pkgs.gh
     pkgs.azure-cli
