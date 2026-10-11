@@ -14,6 +14,7 @@
 
   environment.systemPackages = [
     pkgs.git
+    pkgs.worktrunk
     pkgs.lazygit
     pkgs.gh
     pkgs.azure-cli
@@ -34,6 +35,9 @@
   programs.nix-ld.enable = true;
 
   programs.fish.enable = true;
+  programs.fish.interactiveShellInit = ''
+    ${pkgs.worktrunk}/bin/wt config shell init fish | source
+  '';
 
   programs.starship.enable = true;
 
