@@ -1,16 +1,16 @@
 { lib, pkgs, ... }:
 
 let
-  version = "18.8.9-fork.1";
-  releaseTag = "fork-v18.8.9-1";
+  version = "18.8.9-fork.2";
+  releaseTag = "fork-v18.8.9-2";
   release = {
     aarch64-linux = {
       asset = "omp-linux-arm64";
-      hash = "sha256-y5+zSHWnQimgWwzlqk3WN8ZO+a9DReyqksBxGb7+Id8=";
+      hash = "sha256-OOpKEYOYpOXaL6K23gXkyXgrFKbxxpe8TZRHKGy/wJA=";
     };
     x86_64-linux = {
       asset = "omp-linux-x64";
-      hash = "sha256-5xGSTwG4sanTpizGumhCz35KxdGZLzwje27sJ+2HMmE=";
+      hash = "sha256-z5C7sOm+siRMNLKy9nCWE+e8UVD9ej18AdX7l0Lt8lA=";
     };
   }.${pkgs.stdenv.hostPlatform.system};
 

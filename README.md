@@ -85,7 +85,7 @@ The system configuration installs Herdr from pinned Linux ARM64 and x86-64 relea
 
 ## Updating OMP
 
-OMP is pinned to the fork's `fork-v18.8.9-1` release in `oh-my-pi.nix`, using the published ARM64 and x86-64 binaries with separate SHA-256 hashes. The Nix package version is `18.8.9-fork.1`; the executable reports its upstream version, `18.8.9`. No local OMP compilation or extra flake input is needed.
+OMP is pinned to the fork's `fork-v18.8.9-2` release in `oh-my-pi.nix`, using the published ARM64 and x86-64 binaries with separate SHA-256 hashes. The Nix package version is `18.8.9-fork.2`; the executable reports its upstream version, `18.8.9`. No local OMP compilation or extra flake input is needed.
 
 Fetch the latest stable release from [jonyee/oh-my-pi](https://github.com/jonyee/oh-my-pi/releases), update the tag, version and both architecture hashes, build OMP for this machine, smoke-test its bundled workers, and activate the configuration:
 
@@ -96,7 +96,7 @@ bash "$HOME/git/nix-config/update-omp.sh" --switch
 Omit `--switch` to update the pin and verify the build without changing the running system. To select a specific release instead of the latest:
 
 ```sh
-bash "$HOME/git/nix-config/update-omp.sh" fork-v18.8.9-1 --switch
+bash "$HOME/git/nix-config/update-omp.sh" fork-v18.8.9-2 --switch
 ```
 
 The script works from any directory and requires Bash, curl, and Nix with `nix-command` and `flakes` enabled, as configured here. Both release assets must download successfully before the pin is changed. A later build or activation failure leaves the updated pin in place so it can be inspected or retried.
