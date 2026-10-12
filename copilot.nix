@@ -1,26 +1,31 @@
 { config, lib, pkgs, ... }:
 
 let
+  # The umbrella npm package is only a loader; use the native Linux packages.
+  sources = {
+    aarch64-linux = { arch = "arm64"; hash = "sha256-XmjXpgYefISdOjdp+kI7L1HPLBYkTOh6+81B8U+Wj/0="; };
+    x86_64-linux = { arch = "x64"; hash = "sha256-Nyw53szucrajPFeHGTaO5luvabWt6Ns6LYWzi+KQIJE="; };
+  };
+  source = sources.${pkgs.stdenv.hostPlatform.system};
+
   github-copilot-cli = pkgs.stdenv.mkDerivation rec {
     pname = "github-copilot-cli";
-    version = "1.0.40";
+    version = "1.0.95";
 
     src = pkgs.fetchzip {
-      url = "https://registry.npmjs.org/@github/copilot/-/copilot-${version}.tgz";
-      hash = "sha256-f+Uvlk2JUw2paTjXpEyEyJjdCVFIrnvemBRlE/8VDSQ=";
+      url = "https://registry.npmjs.org/@github/copilot-linux-${source.arch}/-/copilot-linux-${source.arch}-${version}.tgz";
+      inherit (source) hash;
     };
 
-    nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
+    nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+    buildInputs = [ pkgs.stdenv.cc.cc.lib ];
+    dontStrip = true;
 
     installPhase = ''
       runHook preInstall
 
-      mkdir -p $out/lib/node_modules/@github/copilot
-      cp -r . $out/lib/node_modules/@github/copilot
-
-      mkdir -p $out/bin
-      makeBinaryWrapper ${pkgs.nodejs_22}/bin/node $out/bin/copilot \
-        --add-flags "$out/lib/node_modules/@github/copilot/index.js"
+      install -Dm755 copilot $out/bin/copilot
+      install -Dm644 LICENSE.md $out/share/licenses/github-copilot-cli/LICENSE.md
 
       runHook postInstall
     '';
@@ -29,6 +34,7 @@ let
       description = "GitHub Copilot CLI";
       license = lib.licenses.unfree;
       mainProgram = "copilot";
+      platforms = builtins.attrNames sources;
     };
   };
 
@@ -37,7 +43,8 @@ let
     CONFIG="$(dirname "$(readlink -f /etc/nixos/configuration.nix)")/copilot.nix"
 
     echo "Fetching latest version from npm..."
-    LATEST=$(${pkgs.curl}/bin/curl -s https://registry.npmjs.org/@github/copilot/latest | ${pkgs.jq}/bin/jq -r '.version')
+    LATEST=$(${pkgs.curl}/bin/curl -fsSL https://registry.npmjs.org/@github/copilot/latest | ${pkgs.jq}/bin/jq -er '.version')
+    [[ "$LATEST" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid release version" >&2; exit 1; }
 
     CURRENT=$(${pkgs.gawk}/bin/awk '/pname = "github-copilot-cli"/{getline; gsub(/.*version = "|";/,""); print; exit}' "$CONFIG")
 
@@ -49,25 +56,28 @@ let
       exit 0
     fi
 
-    echo "Prefetching new tarball..."
-    URL="https://registry.npmjs.org/@github/copilot/-/copilot-''${LATEST}.tgz"
-    HASH=$(nix-prefetch-url --unpack --type sha256 "$URL" 2>/dev/null)
-    SRI_HASH=$(nix-hash --to-sri --type sha256 "$HASH")
-
-    echo "New hash: $SRI_HASH"
+    echo "Prefetching native tarballs for both architectures..."
+    prefetch() {
+      local arch="$1" hash
+      hash=$(nix-prefetch-url --unpack --type sha256 \
+        "https://registry.npmjs.org/@github/copilot-linux-$arch/-/copilot-linux-$arch-''${LATEST}.tgz") || return "$?"
+      nix-hash --to-sri --type sha256 "$hash"
+    }
+    # Fetch both successfully before changing the configuration.
+    ARM64_HASH=$(prefetch arm64)
+    X64_HASH=$(prefetch x64)
 
     ${pkgs.gnused}/bin/sed -i \
-      "/pname = \"github-copilot-cli\";/{n;s|version = \"[^\"]*\"|version = \"$LATEST\"|}" \
-      "$CONFIG"
-
-    ${pkgs.gnused}/bin/sed -i \
-      "/registry.npmjs.org\/@github\/copilot/{n;s|hash = \"[^\"]*\"|hash = \"$SRI_HASH\"|}" \
+      -e "/pname = \"github-copilot-cli\";/{n;s|version = \"[^\"]*\"|version = \"$LATEST\"|;}" \
+      -e "/aarch64-linux =/s|hash = \"[^\"]*\"|hash = \"$ARM64_HASH\"|" \
+      -e "/x86_64-linux =/s|hash = \"[^\"]*\"|hash = \"$X64_HASH\"|" \
       "$CONFIG"
 
     echo ""
     echo "Updated copilot.nix:"
     echo "  version: $CURRENT -> $LATEST"
-    echo "  hash:    $SRI_HASH"
+    echo "  arm64 hash: $ARM64_HASH"
+    echo "  x64 hash:   $X64_HASH"
     echo ""
     echo "Run 'sudo nixos-rebuild switch' to apply."
   '';
